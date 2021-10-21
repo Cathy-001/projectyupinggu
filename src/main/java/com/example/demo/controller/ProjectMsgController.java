@@ -34,7 +34,6 @@ public class ProjectMsgController extends BaseController{
     public ResultDTO<Boolean> addProjectMsg(ProjectMsg projectMsg){
 
         projectMsg.setCreateTime(new Date());
-        projectMsg.setCreatorId(getSessionUserid());
         return ResultDTO.successOf(projectMsgService.addProjectMsg(projectMsg),GeneralResponseEnums.SUCCESS);
     }
 
