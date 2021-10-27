@@ -12,7 +12,7 @@ import lombok.Data;
  **/
 @Data
 @TableName(value="review_result")
-public class reviewResult {
+public class ReviewResult {
 
     /**
      * id

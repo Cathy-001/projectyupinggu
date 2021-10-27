@@ -37,17 +37,5 @@ public class ProjectMsgService {
         return true;
     }
 
-    public ProjectMsg getById(Integer id){
 
-        
-    }
-
-    /**
-     * 列表查询
-     * @return
-     */
-    public List<ProjectMsg> getList(){
-
-        return projectMsgDao.getList();
-    }
 }

@@ -21,11 +21,6 @@ public class Company {
     private Long id;
 
     /**
-     * 项目id
-     */
-    private Long projectId;
-
-    /**
      * 单位名称
      */
     private String name;

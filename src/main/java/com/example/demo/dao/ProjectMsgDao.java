@@ -1,14 +1,13 @@
 package com.example.demo.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.demo.bean.ProjectMsg;
-import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
+import com.example.demo.qo.ProjectMsgQO;
+import com.example.demo.vo.ProjectMsgVO;
 
 
 public interface ProjectMsgDao extends BaseMapper<ProjectMsg>{
 
-    List<ProjectMsg> getList();
-
+    IPage<ProjectMsgVO> getListByQO(IPage<ProjectMsgVO> page, ProjectMsgQO projectMsgQO);
 }

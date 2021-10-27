@@ -158,11 +158,6 @@ public class ProjectMsg {
     private String researchers;
 
     /**
-     * 项目进度计划id
-     */
-    private Long projectPlanId;
-
-    /**
      * 项目可行性报告
      */
     private String feasibilityReport;
