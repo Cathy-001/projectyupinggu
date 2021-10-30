@@ -11,7 +11,6 @@ import com.example.demo.exception.CustomizeException;
 import com.example.demo.qo.Project;
 import com.example.demo.qo.ProjectMsgQO;
 import com.example.demo.vo.ProjectMsgVO;
-import com.example.demo.vo.ReviewResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
@@ -73,9 +72,10 @@ public class ProjectService {
 
         //添加合作单位
         for (CooperationUnit unit : project.getCooperationUnitList()) {
-
-            unit.setProjectId(projectMsg.getId());
-            int ret1 = cooperationUnitDao.insert(unit);
+            CooperationUnit cooperationUnit = new CooperationUnit();
+            BeanUtils.copyProperties(unit,cooperationUnit);
+            cooperationUnit.setProjectId(projectMsg.getId());
+            int ret1 = cooperationUnitDao.insert(cooperationUnit);
             if(ret1 == 0){
                 throw new CustomizeException(GeneralResponseEnums.ADD_FAILED);
             }
@@ -83,9 +83,10 @@ public class ProjectService {
 
         //添加项目成员
         for (ProjectMember member : project.getProjectMemberList()) {
-
-            member.setProjectId(projectMsg.getId());
-            int ret2 = projectMemberDao.insert(member);
+            ProjectMember projectMember = new ProjectMember();
+            BeanUtils.copyProperties(member,projectMember);
+            projectMember.setProjectId(projectMsg.getId());
+            int ret2 = projectMemberDao.insert(projectMember);
             if(ret2 == 0){
                 throw new CustomizeException(GeneralResponseEnums.ADD_FAILED);
             }
@@ -93,8 +94,10 @@ public class ProjectService {
 
         //添加项目计划
         for (ProjectPlan plan : project.getProjectPlanList()) {
-            plan.setProjectId(projectMsg.getId());
-            int ret3 = projectPlanDao.insert(plan);
+            ProjectPlan projectPlan = new ProjectPlan();
+            BeanUtils.copyProperties(plan,projectPlan);
+            projectPlan.setProjectId(projectMsg.getId());
+            int ret3 = projectPlanDao.insert(projectPlan);
             if(ret3 == 0){
                 throw new CustomizeException(GeneralResponseEnums.ADD_FAILED);
             }
@@ -178,4 +181,108 @@ public class ProjectService {
         return list;
     }
 
+    /**
+     * 根据id进行查询
+     * @param id 项目基本信息id
+     * @return
+     */
+    public Project getProjectById(Integer id){
+
+        Project project = new Project();
+
+        //查询项目基本信息
+        ProjectMsg projectMsg = projectMsgDao.selectById(id);
+        project.setProjectMsg(projectMsg);
+
+        //查询单位信息
+        Company company = companyDao.selectById(projectMsg.getCompanyId());
+        project.setCompany(company);
+
+        //查询合作单位信息
+        LambdaQueryWrapper<CooperationUnit> queryWrapperCooperationUnit = new LambdaQueryWrapper<>();
+        queryWrapperCooperationUnit.eq(CooperationUnit::getProjectId,id);
+        List<CooperationUnit> cooperationUnitList = cooperationUnitDao.selectList(queryWrapperCooperationUnit);
+        project.setCooperationUnitList(cooperationUnitList);
+
+        //查询项目人员信息
+        LambdaQueryWrapper<ProjectMember> memberLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        memberLambdaQueryWrapper.eq(ProjectMember::getProjectId,id);
+        List<ProjectMember> projectMemberList = projectMemberDao.selectList(memberLambdaQueryWrapper);
+        project.setProjectMemberList(projectMemberList);
+
+        //查询项目进度计划
+        LambdaQueryWrapper<ProjectPlan> planLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        planLambdaQueryWrapper.eq(ProjectPlan::getProjectId,id);
+        List<ProjectPlan> projectPlanList = projectPlanDao.selectList(planLambdaQueryWrapper);
+        project.setProjectPlanList(projectPlanList);
+
+        return project;
+    }
+
+    /**
+     * 修改项目信息
+     * @param project 项目信息
+     * @return
+     */
+    public Boolean patchById(Project project){
+
+        //修改项目基本信息
+        int ret1 = projectMsgDao.updateById(project.getProjectMsg());
+        if(ret1 == 0){
+            throw new CustomizeException(GeneralResponseEnums.UPDATE_FAILED);
+        }
+
+        //修改单位基本信息
+        int ret2 = companyDao.updateById(project.getCompany());
+        if(ret2 == 0){
+            throw new CustomizeException(GeneralResponseEnums.UPDATE_FAILED);
+        }
+
+        //修改项目进度计划
+        //删除原有项目计划，重新添加
+        LambdaQueryWrapper<ProjectPlan> planLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        planLambdaQueryWrapper.eq(ProjectPlan::getProjectId,project.getProjectMsg().getId());
+        int ret3 = projectPlanDao.delete(planLambdaQueryWrapper);
+        for (ProjectPlan plan : project.getProjectPlanList()) {
+            ProjectPlan projectPlan = new ProjectPlan();
+            BeanUtils.copyProperties(plan,projectPlan);
+            projectPlan.setProjectId(project.getProjectMsg().getId());
+            int retPlan = projectPlanDao.insert(projectPlan);
+            if(retPlan == 0){
+                throw new CustomizeException(GeneralResponseEnums.ADD_FAILED);
+            }
+        }
+
+        //修改合作单位信息
+        //删除原有合作单位信息，重新添加
+        LambdaQueryWrapper<CooperationUnit> cooperationUnitLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        cooperationUnitLambdaQueryWrapper.eq(CooperationUnit::getProjectId,project.getProjectMsg().getId());
+        int ret4 = cooperationUnitDao.delete(cooperationUnitLambdaQueryWrapper);
+        for (CooperationUnit unit : project.getCooperationUnitList()) {
+            CooperationUnit cooperationUnit = new CooperationUnit();
+            BeanUtils.copyProperties(unit,cooperationUnit);
+            cooperationUnit.setProjectId(project.getProjectMsg().getId());
+            int retUnit = cooperationUnitDao.insert(cooperationUnit);
+            if(retUnit == 0){
+                throw new CustomizeException(GeneralResponseEnums.ADD_FAILED);
+            }
+        }
+
+        //修改项目组成员信息
+        //删除原有成员，重新添加
+        LambdaQueryWrapper<ProjectMember> memberLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        memberLambdaQueryWrapper.eq(ProjectMember::getProjectId,project.getProjectMsg().getId());
+        int ret5 = projectMemberDao.delete(memberLambdaQueryWrapper);
+        for (ProjectMember member : project.getProjectMemberList()) {
+            ProjectMember projectMember = new ProjectMember();
+            BeanUtils.copyProperties(member,projectMember);
+            projectMember.setProjectId(project.getProjectMsg().getId());
+            int retMember = projectMemberDao.insert(projectMember);
+            if(retMember == 0){
+                throw new CustomizeException(GeneralResponseEnums.ADD_FAILED);
+            }
+        }
+
+        return true;
+    }
 }
