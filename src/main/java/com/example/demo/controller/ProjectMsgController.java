@@ -37,13 +37,5 @@ public class ProjectMsgController extends BaseController{
         return ResultDTO.successOf(projectMsgService.addProjectMsg(projectMsg),GeneralResponseEnums.SUCCESS);
     }
 
-    /**
-     * 列表查询
-     * @return
-     */
-    @PostMapping("/list")
-    public ResultDTO<List<ProjectMsg>> getList(){
 
-        return ResultDTO.successOf(projectMsgService.getList(), GeneralResponseEnums.SUCCESS);
-    }
 }

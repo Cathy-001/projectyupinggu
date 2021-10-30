@@ -11,9 +11,12 @@ import com.example.demo.exception.CustomizeException;
 import com.example.demo.qo.Project;
 import com.example.demo.qo.ProjectMsgQO;
 import com.example.demo.vo.ProjectMsgVO;
+import com.example.demo.vo.ReviewResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 /**
  * @ClassName ProjectService
@@ -105,7 +108,7 @@ public class ProjectService {
      * @param id
      * @return
      */
-    public Boolean deleteProjectById(int id){
+    public Boolean deleteProjectById(Integer id){
 
         //删除单位信息
         ProjectMsg projectMsg = projectMsgDao.selectById(id);

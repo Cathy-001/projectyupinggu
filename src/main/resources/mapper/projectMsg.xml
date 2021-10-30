@@ -3,7 +3,17 @@
 <mapper namespace="com.example.demo.dao.ProjectMsgDao">
 
     <select id="getListByQO" parameterType="com.example.demo.qo.ProjectMsgQO" resultType="com.example.demo.vo.ProjectMsgVO">
-
+        SELECT
+            project_msg.`name` as project_name,
+            project_msg.investment,
+            project_msg.special_money,
+            project_msg.state,
+            project_msg.submit_time,
+            project_msg.create_time,
+            company.`name` as company_name
+            FROM project_msg
+            LEFT JOIN company
+            ON project_msg.company_id = company.id;
     </select>
 
 </mapper>

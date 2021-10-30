@@ -48,9 +48,4 @@ public class ProjectMsgVO {
      * 单位名称
      */
     private String companyName;
-
-    /**
-     * 审核结果
-     */
-    private List<ReviewResult> reviewResultList;
 }
