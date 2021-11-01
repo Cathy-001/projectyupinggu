@@ -66,7 +66,7 @@ public class Company {
     private String business;
 
     /**
-     * 企业规模
+     * 企业规模（0小型企业 1中型企业 2大型企业）
      */
     private Integer scale;
 
@@ -76,7 +76,7 @@ public class Company {
     private String property;
 
     /**
-     * 单位资本
+     * 单位资质
      */
     private String certification;
 

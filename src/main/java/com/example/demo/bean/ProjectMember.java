@@ -40,7 +40,7 @@ public class ProjectMember {
     /**
      * 出生日期
      */
-    private Date birth_date;
+    private Date birthDate;
 
     /**
      * 证件类型 0 居民身份证 1护照 2港澳通行证

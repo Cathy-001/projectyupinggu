@@ -64,6 +64,7 @@ public class ProjectService {
         //添加项目基本信息
         ProjectMsg projectMsg = new ProjectMsg();
         BeanUtils.copyProperties(project.getProjectMsg(),projectMsg);
+        projectMsg.setState(0);
         projectMsg.setCompanyId(company.getId());
 
         int insert1 = projectMsgDao.insert(projectMsg);
