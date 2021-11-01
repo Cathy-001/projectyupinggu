@@ -7,6 +7,7 @@ import com.example.demo.qo.Project;
 import com.example.demo.qo.ProjectMsgQO;
 import com.example.demo.service.ProjectService;
 import com.example.demo.vo.ProjectMsgVO;
+import com.example.demo.vo.ProjectVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,7 +72,7 @@ public class ProjectController extends BaseController{
      * @return 返回项目信息
      */
     @GetMapping("/getProject")
-    public ResultDTO<Project> getProjectById(Integer id){
+    public ResultDTO<ProjectVO> getProjectById(Integer id){
 
         return ResultDTO.successOf(projectService.getProjectById(id),GeneralResponseEnums.SUCCESS);
     }

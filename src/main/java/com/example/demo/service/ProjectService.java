@@ -11,6 +11,7 @@ import com.example.demo.exception.CustomizeException;
 import com.example.demo.qo.Project;
 import com.example.demo.qo.ProjectMsgQO;
 import com.example.demo.vo.ProjectMsgVO;
+import com.example.demo.vo.ProjectVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.BeanUtils;
@@ -186,37 +187,51 @@ public class ProjectService {
      * @param id 项目基本信息id
      * @return
      */
-    public Project getProjectById(Integer id){
+    public ProjectVO getProjectById(Integer id){
 
-        Project project = new Project();
+        //Project project = new Project();
+        ProjectVO vo = new ProjectVO();
 
         //查询项目基本信息
         ProjectMsg projectMsg = projectMsgDao.selectById(id);
-        project.setProjectMsg(projectMsg);
+        vo.setProjectMsg(projectMsg);
 
         //查询单位信息
         Company company = companyDao.selectById(projectMsg.getCompanyId());
-        project.setCompany(company);
+        vo.setCompany(company);
 
         //查询合作单位信息
         LambdaQueryWrapper<CooperationUnit> queryWrapperCooperationUnit = new LambdaQueryWrapper<>();
         queryWrapperCooperationUnit.eq(CooperationUnit::getProjectId,id);
         List<CooperationUnit> cooperationUnitList = cooperationUnitDao.selectList(queryWrapperCooperationUnit);
-        project.setCooperationUnitList(cooperationUnitList);
+        vo.setCooperationUnitList(cooperationUnitList);
 
         //查询项目人员信息
         LambdaQueryWrapper<ProjectMember> memberLambdaQueryWrapper = new LambdaQueryWrapper<>();
         memberLambdaQueryWrapper.eq(ProjectMember::getProjectId,id);
         List<ProjectMember> projectMemberList = projectMemberDao.selectList(memberLambdaQueryWrapper);
-        project.setProjectMemberList(projectMemberList);
+
+        //过滤负责人
+        for(int i = 0;i < projectMemberList.size();i++){
+
+            //是否是负责人
+            if(projectMemberList.get(i).getProjectRole() == 0){
+                //获取负责人信息
+                vo.setLeader(projectMemberList.get(i));
+                projectMemberList.remove(i);
+                break;
+            }
+        }
+
+        vo.setProjectMemberList(projectMemberList);
 
         //查询项目进度计划
         LambdaQueryWrapper<ProjectPlan> planLambdaQueryWrapper = new LambdaQueryWrapper<>();
         planLambdaQueryWrapper.eq(ProjectPlan::getProjectId,id);
         List<ProjectPlan> projectPlanList = projectPlanDao.selectList(planLambdaQueryWrapper);
-        project.setProjectPlanList(projectPlanList);
+        vo.setProjectPlanList(projectPlanList);
 
-        return project;
+        return vo;
     }
 
     /**

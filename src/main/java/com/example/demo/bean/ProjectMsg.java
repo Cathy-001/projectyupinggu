@@ -80,12 +80,12 @@ public class ProjectMsg {
     /**
      * 项目负责人id
      */
-    private Long leaderId;
+    //private Long leaderId;
 
     /**
      * 合作单位id
      */
-    private Long cooperationId;
+    //private Long cooperationId;
 
     /**
      * 主要研究内容与目标
@@ -155,7 +155,7 @@ public class ProjectMsg {
     /**
      * 主要研究人员id
      */
-    private String researchers;
+    //private String researchers;
 
     /**
      * 项目可行性报告
