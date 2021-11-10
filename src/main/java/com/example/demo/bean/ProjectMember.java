@@ -25,7 +25,7 @@ public class ProjectMember {
     /**
      * 项目id
      */
-    private Long projectId;
+    private Integer projectId;
 
     /**
      * 项目角色 0负责人 1研究员

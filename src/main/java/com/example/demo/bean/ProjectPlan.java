@@ -25,7 +25,7 @@ public class ProjectPlan {
     /**
      * 项目id
      */
-    private Long projectId;
+    private Integer projectId;
 
     /**
      * 阶段

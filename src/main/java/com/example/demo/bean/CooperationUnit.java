@@ -23,7 +23,7 @@ public class CooperationUnit {
     /**
      * 项目id
      */
-    private Long projectId;
+    private Integer projectId;
 
     /**
      * 单位名称

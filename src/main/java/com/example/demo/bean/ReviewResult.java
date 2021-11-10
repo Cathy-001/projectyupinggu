@@ -25,12 +25,12 @@ public class ReviewResult {
     /**
      * 项目id
      */
-   private Long projectId;
+   private Integer projectId;
 
     /**
      * 审核人id
      */
-   private Long reviewerId;
+   private Integer reviewerId;
 
     /**
      * 审核结果 0 审核驳回 1审核通过

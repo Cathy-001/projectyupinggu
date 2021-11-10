@@ -25,7 +25,7 @@ public class ProjectMsg {
     /**
      * 单位id
      */
-    private Long companyId;
+    private Integer companyId;
 
     /**
      * 指南方向
