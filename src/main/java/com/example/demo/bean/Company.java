@@ -18,7 +18,7 @@ public class Company {
      * id
      */
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 单位名称

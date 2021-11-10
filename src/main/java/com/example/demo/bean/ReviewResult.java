@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.net.Inet4Address;
+
 /**
  * @ClassName reviewResult
  * @Description 审核结果
@@ -18,7 +20,7 @@ public class ReviewResult {
      * id
      */
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 项目id

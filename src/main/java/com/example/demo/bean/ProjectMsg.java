@@ -20,7 +20,7 @@ public class ProjectMsg {
      * id
      */
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 单位id

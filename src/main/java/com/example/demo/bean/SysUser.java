@@ -20,7 +20,7 @@ public class SysUser {
      * id
      */
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 角色  0申报用户  1专家
@@ -31,6 +31,11 @@ public class SysUser {
      * 姓名
      */
     private String name;
+
+    /**
+     * 手机或者邮箱
+     */
+    private String phoneOrEmail;
 
     /**
      * 出生日期

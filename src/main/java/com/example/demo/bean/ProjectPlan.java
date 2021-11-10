@@ -20,7 +20,7 @@ public class ProjectPlan {
      * id
      */
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 项目id
