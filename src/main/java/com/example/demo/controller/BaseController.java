@@ -40,7 +40,7 @@ public abstract class BaseController {
     }
 
     //获取userId
-    public Long getSessionUserid() {
+    public Integer getSessionUserid() {
     	SysUser user = (SysUser) this.request.getSession().getAttribute(key_user);
     	if(user ==null) {
     		return null;

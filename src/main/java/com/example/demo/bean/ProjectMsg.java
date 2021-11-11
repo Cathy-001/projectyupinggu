@@ -185,6 +185,6 @@ public class ProjectMsg {
     /**
      * 创建人id
      */
-    private Long createId;
+    private Integer createId;
 
 }
